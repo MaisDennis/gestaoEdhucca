@@ -1,4 +1,4 @@
-# Projeto Edhucca || 26 de março, 2020
+# Gestão Edhucca || 26 de março, 2020
 
 ##  1.  Conceitos abordados
 
@@ -12,10 +12,10 @@
 
 ##  3.  Iniciando o projeto
 
-    docker
-      name: database4
-      POSTGRES_PASSWORD=docker
-      port: 5435
+1.  docker
+    1.  name: database4
+    2.  POSTGRES_PASSWORD=docker
+    3.  port: 5435
 
 ##  4.  Criando o Projeto
 
@@ -79,3 +79,4 @@
     1.  Criar o controller UserController.js
     2.  Adicionar a routes.js
     3.  Testar via Insomnia.
+        1.   criar new workspace > pasta Users > new POST request > passar name, email, password_hash
