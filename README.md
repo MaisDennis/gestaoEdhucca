@@ -84,3 +84,42 @@
     2.  Adicionar a routes.js
     3.  Testar via Insomnia.
         1.   criar new workspace > pasta Users > new POST request > passar name, email, password_hash
+
+9.  Gerando hash de senha
+    1.  Vamos utilizar para gerar o hash e criptografar a senha:
+        1.  yarn add bcryptjs
+    2.  User.js
+        1.  import bcrypt from 'bcryptjs';
+        2.  Criar campo virtual password, criar addhooks, Insomnia: password.
+
+10. Autenticação JWT
+    1.  yarn add jsonwebtoken
+    2.  Criar o SessionController.js
+    3.  Criar um arquivo auth.js dentro da pasta config
+    4.  Adicionar SessionController a routes.js
+    5.  Insomnia.
+
+11. Middleware de autenticação
+    1.  Bloquear user acessar algum tipo de rota se ele ainda não estiver logado.
+    2.  Criar método update no UserController, porém não faz sentido ela ser acessada se o user não estiver logado.
+    3.  Insomnia -> Criar req Update do tipo PUT.
+    4.  routes.js -> Criar rota Update.
+    5.  Criar pasta middlewares dentro de app e criar um auth.js.
+    6.  Em routes.js criar o middleware global.
+
+12. Update do usuário
+    1.  UserController.js
+        1.  asumc update(req, res)
+        2.  Insomnia:
+            {
+              "name": "user02 updated",
+              "email": "user02@demo.com",
+              "oldPassword": "1234567",
+              "password": "12345678"
+            }
+
+13. Validando dados de entrada
+    1.  Biblioteca yup: schema validation
+        1.  yarn add yup
+        2.  Adicionar ao método STORE, UPDATE do UserController.js
+        3.  Adicionar ao método STORE do SessionController.js
