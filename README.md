@@ -12,14 +12,10 @@
 
 ##  3.  Iniciando o projeto
 
-1.  DB:
-    1.  docker start database4
-    2.  Postbird:
-        1.  name: database4
-        2.  POSTGRES_PASSWORD=docker
-        3.  port: 5435
+1.  ```docker start database4```
+2.  name: database4, POSTGRES_PASSWORD=docker, port: 5435
 
-2.  yarn dev
+2.  ```yarn dev```
 
 ##  4.  Criando o Projeto
 
