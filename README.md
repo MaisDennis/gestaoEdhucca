@@ -119,3 +119,85 @@
         1.  yarn add yup
         2.  Adicionar ao método STORE, UPDATE do UserController.js
         3.  Adicionar ao método STORE do SessionController.js
+
+14. Configurando o Multer
+    1.  yarn add multer
+    2.  Criar pasta /tmp/uploads (onde vao ficar os arquivos de imagens).
+    3.  src/config/multr.js
+    4.  routes.js
+        ```
+        import multer from 'multer';
+        import multerConfig from './config/multer';
+
+        const upload = multer(multerConfig);
+
+        routes.post('/files', upload.single('file'), (req, res) => {
+          return res.json({ ok: true });
+        });
+        ```
+    5.  Insomnia:
+        1.  Criar Files/Create -> Multipart -> file -> Choose file
+        2.  obs. Não tem auth.
+    6.  FileController:
+        1.  import FileController em routes.js
+        2.  Criar FileController.js
+        3.  Nova tabela na database.
+            1.  yarn sequelize migration:create --name=create-files
+            2.  yarn sequelize db:migrate
+        4.  Criar models/File.js
+        5.  update database/index.js
+            1.  import File from '../app/models/File';
+            2.  const models = [User, File];
+        6.  update FileController.js
+        7.  Insomnia: teste Post base_url/files Send,
+        8.  **Incluir nova coluna a tabela "user" para vincular a tabela "files.**
+
+16. Listagem de coordinators
+    1.  Coordinator é um tipo de user.
+    2.  Criar controllers/CoordController.js:
+    3.  routes -> import CoordController from './app/controllers/CoordController' -> routes.get('/coordinators', CoordController.index);
+    4.  CoordController.js
+        async index(req, res) {
+          const coordinators = await User.findAll({
+            where: { coordinator: true },
+          });
+    5.  **Attributes & include File**
+
+17. Migration e Model de aluno, empresa e contrato
+    1.  yarn sequelize migration:create --name=create-students
+    2.  yarn sequelize migration:create --name=create-companies
+    3.  yarn sequelize migration:create --name=create-contracts
+    4.  yarn sequelize db:migrate
+    5.  models/Student.js -> add database/index.js
+    6.  controllers/StudentController.js
+        1.  yarn add cpf -> cpf validator -> https://github.com/theuves/cpf
+        2.  Insomnia
+    7.  models/Company.js -> add database/index.js
+    8.  controllers/CompanyController.js
+        1.  yarn add cnpj -> cnpj validator -> https://github.com/gabrielizaias/cnpj
+        2.  Insomnia
+    9.  models/Contract.js ->
+        1.  Adicionar  static associate(models)
+        2.  database/index.js
+            1.  adicionar no Contract no models
+            2.  adicionar .map(
+                  (model) => model.associate && model.associate(this.connection.models)
+                );
+        3.  controllers/ContractController.js
+            1.  Insomnia
+
+18. Aprovação de contrato
+    1.  administrador aprova contratos para entrar em vigor.
+    2.  Após a aprovação, **o contrato não pode ser alterado.**
+    3.  **Aprovação: Token na tabela 'contratos'.**
+    4.  Criar ApprovalController.js
+        1.  import jwt e authConfig para gerar o token de aprovação.
+        2.  geração de numero randomico -> const rnd = Math.random();
+        3.  ```
+            const token = jwt.sign({ rnd }, authConfig.secret, {
+              expiresIn: authConfig.expiresIn,
+            });
+            ```
+    5.  routes.js -> adicionar rota após o middleware de autenticação (apenas administrador).
+
+
