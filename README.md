@@ -200,4 +200,17 @@
             ```
     5.  routes.js -> adicionar rota após o middleware de autenticação (apenas administrador).
 
+19. Update de contrato
+    1.  Até a aprovação do contrato, ele pode ser alterado por qualquer usuário.
+    2.  A presença do **token** impede update.
+    3.  ```
+        if (contract.token) {
+          return res
+            .status(400)
+            .json({ error: 'This contract can not be updated.' });
+        }
+        ```
 
+20. Montando o cronograma.
+    1.  Biblioteca para lidar com datas:
+        1.  yarn add date-fns@next

@@ -28,7 +28,17 @@ class ContractController {
     const holidays = Holidays(start_date, end_date);
     const chrono = Chrono(start_date, end_date);
 
-    // console.log(validDays);
+    const conglo = chrono.concat(holidays);
+    conglo.sort();
+    const congloLength = conglo.length;
+    let i;
+    for (i = congloLength; i > 1; i -= 1) {
+      if (conglo[i - 2][0] === conglo[i - 1][0]) {
+        conglo.splice(i - 1, 1);
+        console.log(conglo[i - 1][0]);
+      }
+    }
+    // console.log(conglo);
 
     const contract = await Contract.create({
       student_id,
@@ -37,7 +47,15 @@ class ContractController {
       end_date,
     });
 
-    return res.json({ contract, businessDays, pDays, tDays, holidays, chrono });
+    return res.json({
+      contract,
+      businessDays,
+      pDays,
+      tDays,
+      // holidays,
+      // chrono,
+      conglo,
+    });
   }
 
   async update(req, res) {

@@ -94,8 +94,17 @@ function Holidays(start_date, end_date) {
   newData.splice(0, 1); // delete start_date.
   newData.splice(-1, 1); // delete end_date.
   // console.log(newData);
+  const newDataLength = newData.length;
+  // console.log(newDataLength);
+  const hData = [];
+  let bracket = [];
+  let i;
+  for (i = 0; i < newDataLength; i += 1) {
+    bracket = [newData[i], 'H'];
+    hData.push(bracket);
+  }
 
-  return newData;
+  return hData;
 }
 
 export default Holidays;
