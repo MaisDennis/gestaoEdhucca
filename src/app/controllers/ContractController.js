@@ -7,8 +7,13 @@ import {
 } from 'date-fns';
 
 import Contract from '../models/Contract';
+import Student from '../models/Student';
+import Company from '../models/Company';
+import Calendar from '../models/Calendar';
 import Holidays from '../../utils/calcHolidaysBR';
-import Chrono from '../../utils/generateChrono';
+// import Chrono from '../../utils/generateChrono';
+import genCalendar from '../../utils/generateCalendar';
+import Chrono from '../../utils/generateStudentCalendar';
 
 class ContractController {
   async store(req, res) {
@@ -17,17 +22,28 @@ class ContractController {
       return res.status(400).json({ error: 'Validation failed' });
     }
 
-    const { student_id, company_id } = req.body;
-    // const start_date = new Date();
-    const start_date = parseISO('2020-03-30');
-    const end_date = addMonths(start_date, 24);
-    const businessDays = differenceInBusinessDays(end_date, start_date);
+    const { student_id, company_id, start_date } = req.body;
+    const parsedStart_date = parseISO(start_date);
+
+    const calendars = await Calendar.findAll({
+      order: ['id'],
+    });
+    const calendarx = calendars[0].calendar;
+    // console.log(calendarx);
+
+    const calendara = Chrono(calendarx, start_date);
+    const chrono = JSON.stringify(calendara);
+    // console.info(chrono);
+
+    const end_date = addMonths(parsedStart_date, 24);
+
+    /*
+    // generate chrono
+    const businessDays = differenceInBusinessDays(end_date, parsedStart_date);
     const pDays = businessDays * 0.4;
     const tDays = businessDays * 0.6;
-
-    const holidays = Holidays(start_date, end_date);
-    const chrono = Chrono(start_date, end_date);
-
+    const holidays = Holidays(parsedStart_date, end_date);
+    const chrono = Chrono(parsedStart_date, end_date);
     const conglo = chrono.concat(holidays);
     conglo.sort();
     const congloLength = conglo.length;
@@ -38,23 +54,31 @@ class ContractController {
         console.log(conglo[i - 1][0]);
       }
     }
+    */
     // console.log(conglo);
+
+    // generate calendar
+    // const calendar = genCalendar();
 
     const contract = await Contract.create({
       student_id,
       company_id,
       start_date,
       end_date,
+      chrono,
     });
 
     return res.json({
       contract,
-      businessDays,
-      pDays,
-      tDays,
+      // calendarx,
+      chrono,
+      // businessDays,
+      // pDays,
+      // tDays,
       // holidays,
       // chrono,
-      conglo,
+      // conglo,
+      // calendar,
     });
   }
 
@@ -75,7 +99,21 @@ class ContractController {
   }
 
   async index(req, res) {
-    const contracts = await Contract.findAll();
+    const contracts = await Contract.findAll({
+      order: ['createdAt'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['name', 'cpf'],
+        },
+        {
+          model: Company,
+          as: 'company',
+          attributes: ['name', 'cnpj'],
+        },
+      ],
+    });
     return res.json(contracts);
   }
 }

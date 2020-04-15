@@ -9,6 +9,7 @@ class Contract extends Model {
         end_date: Sequelize.DATE,
         token: Sequelize.STRING,
         canceled_at: Sequelize.DATE,
+        chrono: Sequelize.STRING,
       },
       {
         sequelize,

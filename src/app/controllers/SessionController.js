@@ -15,7 +15,7 @@ class SessionController {
     }
 
     const { email, password } = req.body;
-
+    // console.log(email);
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -26,13 +26,14 @@ class SessionController {
       return res.status(401).json({ error: 'Password does not match' });
     }
 
-    const { id, name } = user;
+    const { id, name, coordinator } = user;
 
     return res.json({
       user: {
         id,
         name,
         email,
+        coordinator,
       },
       token: jwt.sign({ id }, authConfig.secret, {
         expiresIn: authConfig.expiresIn,

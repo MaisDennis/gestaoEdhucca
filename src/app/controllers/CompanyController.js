@@ -19,7 +19,7 @@ class CompanyController {
       return res.status(400).json({ error: 'Student already exists.' });
     }
 
-    console.log(req.body.cnpj);
+    // console.log(req.body.cnpj);
 
     const checkCnpj = validate(req.body.cnpj);
     if (!checkCnpj) {
@@ -33,6 +33,11 @@ class CompanyController {
       name,
       cnpj,
     });
+  }
+
+  async index(req, res) {
+    const companies = await Company.findAll();
+    return res.json(companies);
   }
 }
 

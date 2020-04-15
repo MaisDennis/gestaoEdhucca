@@ -5,8 +5,6 @@ import {
   getMonth,
 } from 'date-fns';
 
-import Holidays from './calcHolidaysBR';
-
 function Chrono(start_date, end_date) {
   const businessDays = differenceInBusinessDays(end_date, start_date);
   const Data = [];

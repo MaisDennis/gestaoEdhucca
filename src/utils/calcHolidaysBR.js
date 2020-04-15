@@ -75,27 +75,25 @@ function Holidays(start_date, end_date) {
     '2025-11-15',
     '2025-12-25',
   ];
-
   const Data = holidaysBR;
   const formatStart = format(start_date, "yyyy'-'MM'-'dd");
   const formatEnd = format(end_date, "yyyy'-'MM'-'dd");
 
+  // Build Data => copy of Holiday array and sort.
   Data.push(formatStart);
   Data.push(formatEnd);
   Data.sort();
-  // console.log(Data);
 
+  // Build newData => array with holdays between start & end.
   const startIndex = Data.findIndex((s) => s === formatStart);
   const endIndex = Data.findIndex((e) => e === formatEnd);
-  // console.log(startIndex);
-  // console.log(endIndex);
-
   const newData = Data.slice(startIndex, endIndex);
   newData.splice(0, 1); // delete start_date.
   newData.splice(-1, 1); // delete end_date.
   // console.log(newData);
+
+  // Build array with bracket (holiday, 'H').
   const newDataLength = newData.length;
-  // console.log(newDataLength);
   const hData = [];
   let bracket = [];
   let i;
@@ -103,7 +101,7 @@ function Holidays(start_date, end_date) {
     bracket = [newData[i], 'H'];
     hData.push(bracket);
   }
-
+  // hData => array of bracket (holiday, 'H').
   return hData;
 }
 

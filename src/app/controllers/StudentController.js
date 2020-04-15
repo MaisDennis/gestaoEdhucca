@@ -12,9 +12,11 @@ class StudentController {
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation failed' });
     }
+
     const studentExists = await Student.findOne({
       where: { cpf: req.body.cpf },
     });
+
     if (studentExists) {
       return res.status(400).json({ error: 'Student already exists.' });
     }
@@ -31,6 +33,11 @@ class StudentController {
       name,
       cpf,
     });
+  }
+
+  async index(req, res) {
+    const students = await Student.findAll();
+    return res.json(students);
   }
 }
 
