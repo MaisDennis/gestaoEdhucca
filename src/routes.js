@@ -11,6 +11,7 @@ import CompanyController from './app/controllers/CompanyController';
 import ContractController from './app/controllers/ContractController';
 import ApprovalController from './app/controllers/ApprovalController';
 import CalendarController from './app/controllers/CalendarController';
+import ScanController from './app/controllers/ScanController';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -32,6 +33,7 @@ routes.get('/companies', CompanyController.index);
 routes.post('/contracts', ContractController.store);
 routes.put('/contracts/:id', ContractController.update);
 routes.get('/contracts', ContractController.index);
+routes.get('/contracts/scan/:id', ScanController.index);
 
 routes.get('/calendars', CalendarController.index);
 

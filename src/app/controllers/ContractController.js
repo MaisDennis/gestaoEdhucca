@@ -1,18 +1,11 @@
 import * as Yup from 'yup';
-import {
-  addMonths,
-  parseISO,
-  format,
-  differenceInBusinessDays,
-} from 'date-fns';
+import { parseISO } from 'date-fns';
 
 import Contract from '../models/Contract';
 import Student from '../models/Student';
 import Company from '../models/Company';
 import Calendar from '../models/Calendar';
 import Holidays from '../../utils/calcHolidaysBR';
-// import Chrono from '../../utils/generateChrono';
-import genCalendar from '../../utils/generateCalendar';
 import Chrono from '../../utils/generateStudentCalendar';
 
 class ContractController {
@@ -33,9 +26,8 @@ class ContractController {
 
     const calendara = Chrono(calendarx, start_date);
     const chrono = JSON.stringify(calendara);
-    // console.info(chrono);
-
-    const end_date = addMonths(parsedStart_date, 24);
+    const end_date = calendara[calendara.length - 1][0];
+    // const end_date = addMonths(parsedStart_date, 24);
 
     /*
     // generate chrono
