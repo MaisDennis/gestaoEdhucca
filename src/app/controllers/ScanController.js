@@ -4,7 +4,8 @@ import Company from '../models/Company';
 
 class ScanController {
   async index(req, res) {
-    const { token } = req.body;
+    const { token } = req.query;
+
     const contracts = await Contract.findAll({
       order: ['createdAt'],
       include: [
@@ -20,9 +21,9 @@ class ScanController {
         },
       ],
     });
-    console.log(token);
 
     const contract = contracts.find((c) => c.token == token);
+    // console.log(contract);
 
     return res.json(contract);
   }

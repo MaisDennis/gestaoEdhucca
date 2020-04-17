@@ -33,7 +33,7 @@ routes.get('/companies', CompanyController.index);
 routes.post('/contracts', ContractController.store);
 routes.put('/contracts/:id', ContractController.update);
 routes.get('/contracts', ContractController.index);
-routes.get('/contracts/scan/:id', ScanController.index);
+routes.get('/contracts/scan', ScanController.index);
 
 routes.get('/calendars', CalendarController.index);
 
