@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { validate } from 'cnpj'; // https://github.com/gabrielizaias/cnpj
-
+import { Op } from 'sequelize';
 import Company from '../models/Company';
 
 class CompanyController {
@@ -36,7 +36,15 @@ class CompanyController {
   }
 
   async index(req, res) {
-    const companies = await Company.findAll();
+    const { test } = req.query;
+    const companies = await Company.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${test}%`,
+        },
+      },
+    });
+    console.log(test);
     return res.json(companies);
   }
 }

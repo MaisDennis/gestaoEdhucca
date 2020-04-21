@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import CPF from 'cpf'; // https://github.com/theuves/cpf
-
+import { Op } from 'sequelize';
 import Student from '../models/Student';
 
 class StudentController {
@@ -36,7 +36,15 @@ class StudentController {
   }
 
   async index(req, res) {
-    const students = await Student.findAll();
+    const { test } = req.query;
+    const students = await Student.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${test}%`,
+        },
+      },
+    });
+    // console.log(test);
     return res.json(students);
   }
 }

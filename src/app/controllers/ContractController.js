@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { parseISO } from 'date-fns';
-
+import { Op } from 'sequelize';
 import Contract from '../models/Contract';
 import Student from '../models/Student';
 import Company from '../models/Company';
@@ -91,6 +91,8 @@ class ContractController {
   }
 
   async index(req, res) {
+    // const { test } = req.query;
+    // console.log(test);
     const contracts = await Contract.findAll({
       order: ['createdAt'],
       include: [
