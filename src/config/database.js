@@ -1,9 +1,9 @@
 module.exports = {
   dialect: 'postgres',
-  host: 'localhost',
-  username: 'postgres',
-  password: 'docker',
-  database: 'edhucca',
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   port: 5435, // adicionar a porta se não estiver rodando a padrão 5432
   define: {
     timestamps: true, // saber quando registro foi criado/editado
