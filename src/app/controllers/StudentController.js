@@ -7,7 +7,7 @@ class StudentController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      cpf: Yup.string().required().min(11).max(11),
+      cpf: Yup.string().required().min(11),
     });
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Validation failed' });
